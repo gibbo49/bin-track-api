@@ -1,6 +1,7 @@
 """
 Database models.
 """
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -42,3 +43,22 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
+
+
+class BinObject(models.Model):
+    """Bin Object."""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+    bin_id = models.CharField(max_length=255)
+    bin_size = models.CharField(max_length=255)
+    bin_type = models.CharField(max_length=255)
+    special_bin = models.BooleanField(default=False)
+    bin_owner = models.CharField(max_length=255)
+    bin_location = models.CharField(max_length=255)
+    bin_defects = models.TextField(blank=True)
+    bin_tagged_out = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.bin_id
