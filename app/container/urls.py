@@ -1,5 +1,5 @@
 """
-URL mappings for thee bin app.
+URL mappings for the container app.
 """
 from django.urls import (
     path,
@@ -8,13 +8,13 @@ from django.urls import (
 
 from rest_framework.routers import DefaultRouter
 
-from detail import views
+from container import views
 
 
 router = DefaultRouter()
-router.register('details', views.BinViewSet)
+router.register('containers', views.ContainerViewSet)
 
-app_name = 'detail'
+app_name = 'container'
 
 urlpatterns = [
     path('', include(router.urls)),

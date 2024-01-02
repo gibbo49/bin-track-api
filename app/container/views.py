@@ -1,18 +1,18 @@
 """
-Views for the bin details API.
+Views for the container API.
 """
 from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-from core.models import BinObject
-from detail import serializers
+from core.models import Container
+from container import serializers
 
 
-class BinViewSet(viewsets.ModelViewSet):
-    """View for manage bin detail APIs."""
-    serializer_class = serializers.BinSerializer
-    queryset = BinObject.objects.all()
+class ContainerViewSet(viewsets.ModelViewSet):
+    """View for manage container APIs."""
+    serializer_class = serializers.ContainerSerializer
+    queryset = Container.objects.all()
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 

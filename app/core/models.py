@@ -45,7 +45,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
 
 
-class BinObject(models.Model):
+class Container(models.Model):
     """Bin Object."""
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -54,11 +54,6 @@ class BinObject(models.Model):
     bin_id = models.CharField(max_length=255)
     bin_size = models.CharField(max_length=255)
     bin_type = models.CharField(max_length=255)
-    special_bin = models.BooleanField(default=False)
-    bin_owner = models.CharField(max_length=255)
-    bin_location = models.CharField(max_length=255)
-    bin_defects = models.TextField(blank=True)
-    bin_tagged_out = models.BooleanField(default=False)
 
     def __str__(self):
         return self.bin_id
