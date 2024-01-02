@@ -1,7 +1,6 @@
 """
 Test for models.
 """
-from decimal import Decimal
 
 from django.test import TestCase
 from django.contrib.auth import get_user_model
@@ -57,16 +56,11 @@ class ModelTests(TestCase):
             'test@example.com',
             'testpass123',
         )
-        bin_object = models.BinObject.objects.create(
+        bin_object = models.Container.objects.create(
             user=user,
             bin_id='8097',
             bin_size='32m',
             bin_type='Skip',
-            special_bin=True,
-            bin_owner='Huhtamaki',
-            bin_location='Glendenning',
-            bin_defects='Door Chain Broken',
-            bin_tagged_out=True,
         )
 
         self.assertEqual(str(bin_object), bin_object.bin_id)
