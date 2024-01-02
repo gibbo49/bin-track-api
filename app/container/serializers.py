@@ -13,3 +13,10 @@ class ContainerSerializer(serializers.ModelSerializer):
         model = Container
         fields = ['id', 'bin_id', 'bin_size', 'bin_type']
         read_only_fields = ['id']
+
+
+class ContainerDetailSerializer(ContainerSerializer):
+    """Serializer for container detail view."""
+
+    class Meta(ContainerSerializer.Meta):
+        fields = ContainerSerializer.Meta.fields + ['description']

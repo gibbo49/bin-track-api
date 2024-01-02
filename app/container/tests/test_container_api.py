@@ -11,10 +11,18 @@ from rest_framework.test import APIClient
 
 from core.models import Container
 
-from container.serializers import ContainerSerializer
+from container.serializers import (
+    ContainerSerializer,
+    ContainerDetailSerializer,
+)
 
 
 CONTAINER_URL = reverse('container:container-list')
+
+
+def detail_url(container_id):
+    """Create and return a container detail URL."""
+    return reverse('container:container-detail')
 
 
 def create_container(user, **params):
@@ -80,3 +88,14 @@ class PrivateContainerApiTests(TestCase):
         serializer = ContainerSerializer(containers, many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
+
+
+def test_get_container_detail(self):
+    """Test get container detail."""
+    container = create_container(user=self.user)
+
+    url = container_url(container.id)
+    res = self.client.get(url)
+
+    serializer = ContainerDetailSerializer(container)
+    self.assertEqual(res.data, serializer.data)
