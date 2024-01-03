@@ -94,8 +94,24 @@ def test_get_container_detail(self):
     """Test get container detail."""
     container = create_container(user=self.user)
 
-    url = container_url(container.id)
+    url = detail_url(container.id)
     res = self.client.get(url)
 
     serializer = ContainerDetailSerializer(container)
     self.assertEqual(res.data, serializer.data)
+
+
+def test_create_container(self):
+    """Test creating a container."""
+    payload = {
+        'bin_id': 8607,
+        'bin_size': '32m',
+        'bin_type': 'Open Skip',
+    }
+    res = self.client.post(CONTAINER_URL, payload)
+
+    self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+    container = Container.objects.get(id=res.data['id'])
+    for k, v in payload.items():
+        self.assertEqual(getattr(container, k), v)
+    self.assertEqual(container.user, self.user)

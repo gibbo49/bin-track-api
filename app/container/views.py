@@ -26,3 +26,7 @@ class ContainerViewSet(viewsets.ModelViewSet):
             return serializers.ContainerSerializer
 
         return self.serializer_class
+
+    def perform_create(self, serializer):
+        """Create a new container."""
+        serializer.save(user=self.request.user)
