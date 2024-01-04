@@ -54,6 +54,7 @@ class Container(models.Model):
     bin_id = models.CharField(max_length=255)
     bin_size = models.CharField(max_length=255)
     bin_type = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
 
     def __str__(self):
         return self.bin_id

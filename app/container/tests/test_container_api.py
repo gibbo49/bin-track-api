@@ -22,13 +22,13 @@ CONTAINER_URL = reverse('container:container-list')
 
 def detail_url(container_id):
     """Create and return a container detail URL."""
-    return reverse('container:container-detail')
+    return reverse('container:container-detail', args=[container_id])
 
 
 def create_container(user, **params):
     """Create and return a sample container."""
     defaults = {
-        'bin_id': 8607,
+        'bin_id': '8607',
         'bin_size': '32m',
         'bin_type': 'Open Skip',
     }
@@ -101,7 +101,7 @@ class PrivateContainerApiTests(TestCase):
     def test_create_container(self):
         """Test creating a container."""
         payload = {
-            'bin_id': 8607,
+            'bin_id': '8607',
             'bin_size': '32m',
             'bin_type': 'Open Skip',
         }
@@ -122,7 +122,7 @@ class PrivateContainerApiTests(TestCase):
             bin_size=original_size,
         )
 
-        payload = {'bin_id':8000}
+        payload = {'bin_id':'8000'}
         url = detail_url(container.id)
         res = self.client.patch(url, payload)
 
@@ -136,13 +136,13 @@ class PrivateContainerApiTests(TestCase):
         """Test full update of a container."""
         container = create_container(
             user=self.user,
-            bin_id=1234,
+            bin_id='1234',
             bin_size='15m',
             bin_type='Compactor',
         )
 
         payload = {
-            'bin_id': 4321,
+            'bin_id': '4321',
             'bin_size': '23m',
             'bin_type': 'Unipack'
         }
@@ -176,3 +176,14 @@ class PrivateContainerApiTests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
         self.assertFalse(Container.objects.filter(id=container.id).exists())
+
+    def test_delete_other_users_container_error(self):
+        """Test trying to delete another users container gives an error."""
+        new_user = create_user(email='user2@example.com', password='test123')
+        container = create_container(user=new_user)
+
+        url = detail_url(container.id)
+        res = self.client.delete(url)
+
+        self.assertEqual(res.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertTrue(Container.objects.filter(id=container.id).exists())
