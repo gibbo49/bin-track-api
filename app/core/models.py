@@ -55,6 +55,19 @@ class Container(models.Model):
     bin_size = models.CharField(max_length=255)
     bin_type = models.CharField(max_length=255)
     description = models.TextField(blank=True)
+    tags = models.ManyToManyField('Tag')
 
     def __str__(self):
         return self.bin_id
+
+
+class Tag(models.Model):
+    """Tag for filtering bins."""
+    name = models.CharField(max_length=255)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+
+    def __str__(self):
+        return self.name
