@@ -13,6 +13,7 @@ from container import views
 
 router = DefaultRouter()
 router.register('containers', views.ContainerViewSet)
+router.register('tags', views.TagViewSet)
 
 app_name = 'container'
 
